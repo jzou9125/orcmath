@@ -10,6 +10,7 @@ public class CatalogScreen extends FullFunctionScreen {
 
 	private TextField quote;
 	private TextField date;
+	private Button add;
 	public CatalogScreen(int width, int height) {
 		super(width, height);
 		// TODO Auto-generated constructor stub
@@ -22,6 +23,16 @@ public class CatalogScreen extends FullFunctionScreen {
 		
 		date = new TextField(280,40,200,30, "Date goes here.", "Date");
 		viewObjects.add(date);
+		
+		add = new Button(40, 80,60, 40, "Submit", new Action() {
+			
+			@Override
+			public void act() {
+				date.setText("You clicked the button.");
+				
+			}
+		});
+		viewObjects.add(add);
 	}
 
 	
