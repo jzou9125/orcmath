@@ -8,10 +8,10 @@ import guiTeacher.components.AnimatedComponent;
 public class DonaldTrumpQuotes extends AnimatedComponent {
 
 	
-	private String[][] quotes; // String, Date
+	private String[] quotes; // String, Date
 	
 		
-	public DonaldTrumpQuotes(String[][] s) {
+	public DonaldTrumpQuotes(String[] s) {
 		super(40, 40, 136, 130);
 		this.quotes = s;
 		
@@ -33,7 +33,7 @@ public class DonaldTrumpQuotes extends AnimatedComponent {
 //		super.update(g);
 	}
 
-	public String[][] getQuotes() {
+	public String[] getQuotes() {
 		return quotes;
 	}
 

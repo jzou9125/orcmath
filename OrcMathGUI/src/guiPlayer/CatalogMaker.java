@@ -9,15 +9,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CatalogMaker {
-
-	private ArrayList<DonaldTrumpQuotes> List;
+	
 	public static Scanner in;
-
-	private ArrayList<Book> catalog;
+	private ArrayList<DonaldTrumpQuotes> catalog;
 
 	public CatalogMaker() {
 		//instantiate the catalog
-		catalog = new ArrayList<Book>();
+		catalog = new ArrayList<DonaldTrumpQuotes>();
 	}
 
 	public static void main(String[] args){
@@ -60,19 +58,16 @@ public class CatalogMaker {
 	}
 
 	private void add() {
-		String title = null;
-		String author = null;
-		int pages = 0;
-		displayMessage("Please enter a title");
-		title = getStringInput();
-		displayMessage("Please enter an author");
-		author = getStringInput();
-		displayMessage("Please enter the number of pages.");
-		pages = getIntegerInput();
-		addBook(new Book(title, author, pages));
+		String[] input = new String[2];
+		displayMessage("Please enter the quote");
+		input[0] = getStringInput()+"~";
+		displayMessage("Please enter the date");
+		input[1] = getStringInput();
+		
+		addBook(new DonaldTrumpQuotes(input));
 	}
 
-	private int getIntegerInput() {
+	/*private int getIntegerInput() {
 		String text = in.nextLine();
 		int value = 0;
 		boolean valid = false;
@@ -85,7 +80,7 @@ public class CatalogMaker {
 			}
 		}
 		return value;
-	}
+	}*/
 
 	private static String getStringInput(){
 		String text = in.nextLine();
@@ -97,19 +92,19 @@ public class CatalogMaker {
 	}
 
 
-	private void addBook(Book b){
+	public void addBook(DonaldTrumpQuotes b){
 		catalog.add(b);
 	}
 
-	private void save() {
+	public void save() {
 		try{    
-			FileWriter fw=new FileWriter("BookCatalog.csv");
-			for(Book b: catalog){
+			FileWriter fw=new FileWriter("QuoteCatalog.csv");
+			for(DonaldTrumpQuotes b: catalog){
 				fw.write(b+"\n");    	
 			}
 
 			fw.close();    
-			System.out.println("Success! File \"BookCatalog.csv\" saved!");
+			System.out.println("Success! File \"QuoteCatalog.csv\" saved!");
 		}catch(IOException e){
 			System.out.println("An IOException was thrown. \nCheck to see that the directory where you tried to save the file actually exists.");
 		}
@@ -136,16 +131,14 @@ public class CatalogMaker {
 	}
 
 	private  void showCatalog() {
-		displayMessage("The catalog contains these Books:\n");
-		for(Book b: catalog){
-			displayMessage("   "+b.toString()+"\n");
-		}
+		displayMessage("The catalog contains these Quotes:\n");
+		displayMessage(getCSVContent());
 	}
 
 	private void load() {
 		String fileName = "";
 		//empty the catalog to prepare for a new load
-		catalog = new ArrayList<Book>();
+		catalog = new ArrayList<DonaldTrumpQuotes>();
 		//use this boolean to control the while loop. The user should have multiple chances to enter a correct filename
 		boolean opened = false;
 		while(!opened){
@@ -158,9 +151,9 @@ public class CatalogMaker {
 				BufferedReader br = new BufferedReader(fileReader);
 				while ((line = br.readLine()) != null) {
 
-					String[] param = line.split(",");
+					String[] param = line.split("~");
 					//add a new Book for each line in the save file
-					catalog.add(new Book(param[0],param[1],Integer.parseInt(param[2])));
+					catalog.add(new DonaldTrumpQuotes(param));
 
 
 
@@ -175,33 +168,22 @@ public class CatalogMaker {
 
 	}
 
-	/*public static void main(String[] args) {
-		CatalogMaker test = new CatalogMaker();
-		System.out.print(test.getCSVContent());
-		Scanner in = new Scanner(System.in);
-		boolean running = true;
-		while( running)
-		{
-			DonaldTrumpQuotes input;
-			String text= in.nextLine();
-			String date = in.nextLine();
-			
-			test.List.add(input);
-		}
-	}*/
-
 	public String getCSVContent()
 	{
-		String data = "Quote, Date\n";
-		for(DonaldTrumpQuotes s: List)
+		String data = "Quote, Date:\n";
+		String text = "";
+		for(DonaldTrumpQuotes s: catalog)
 		{
-			for( String[] t: s.getQuotes())
+			for( String r: s.getQuotes())
 			{
-				for( String r: t)
-				{
-					data += r+"\n";
-				}
+				text += r;
 			}
+			String[] input = text.split("~");
+			for(String t: input)
+			{
+				data+= t+ " ";
+			}
+			data += "\n";
 		}
 		return data;
 		
