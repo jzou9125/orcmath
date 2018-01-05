@@ -16,15 +16,16 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 	 * 
 	 */
 	private static final long serialVersionUID = -1341680881667906578L;
-	public ProgressInterfaceJason si;
-	private ButtonInterfaceJason[] buttons; 
-	public  ArrayList<MoveInterfaceJason> avaiableMoves = new ArrayList<MoveInterfaceJason>();
-	public  ArrayList<MoveInterfaceJason> playerMoves = new ArrayList<MoveInterfaceJason>();
-	public int round = 0;
-	public boolean playing = true;
-	public TextArea sRound;
-	
-	
+	private ProgressInterfaceJason si;
+	private ButtonInterfaceJason[] buttons;
+	private  ArrayList<MoveInterfaceJason> playerMoves = new ArrayList<MoveInterfaceJason>();
+	private ArrayList<MoveInterfaceJason> sequence = new ArrayList<MoveInterfaceJason>;
+	private int round = 0;
+	private boolean playing = true;
+	private int sequenceNum;
+	private TextArea tRound;
+
+
 	public SimonScreenJason(int width, int height) {
 		super(width, height);
 	}
@@ -38,8 +39,8 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 			buttons[i] = getButton();
 			buttons[i].setColor(Color.black);
 		}
-		sRound = new TextArea(10,40, 40, 40, "Round");
-		viewObjects.add(sRound);
+		
+		
 
 	}
 
@@ -50,18 +51,24 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 	@Override
 	public void run() {
 		generateMoves();
-		updateRounds(sRound);
-		
+		updateRounds(tRound);
+
 	}
 
 	private void updateRounds(TextArea text) {
 		text.setText("Round: "+Integer.toString(round));
-		
+
 	}
 
 	private void generateMoves() {
-		int randNum =(int) (Math.random()*4);
-		for()
+		for(int i = 0; i< sequenceNum; i++)
+		{
+			int randNum =(int) (Math.random()*4);
+			sequence.add(buttons[randNum].addMove());
+			ButtonInterfaceJason holder = buttons[randNum];
+			buttons[randNum] = buttons[buttons.length -1];
+			buttons[buttons.length-1] = holder;
+		}
 	}
 
 }
