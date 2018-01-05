@@ -19,7 +19,7 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 	private ProgressInterfaceJason si;
 	private ButtonInterfaceJason[] buttons;
 	private  ArrayList<MoveInterfaceJason> playerMoves = new ArrayList<MoveInterfaceJason>();
-	private ArrayList<MoveInterfaceJason> sequence = new ArrayList<MoveInterfaceJason>;
+	private ArrayList<MoveInterfaceJason> sequence = new ArrayList<MoveInterfaceJason>();
 	private int round = 0;
 	private boolean playing = true;
 	private int sequenceNum;
@@ -53,6 +53,14 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 		generateMoves();
 		updateRounds(tRound);
 
+		getButton().highlight();
+		try {
+		Thread.sleep(800);
+		} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+		getButton().dim();
 	}
 
 	private void updateRounds(TextArea text) {

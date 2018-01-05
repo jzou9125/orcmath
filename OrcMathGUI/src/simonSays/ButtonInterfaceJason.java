@@ -10,4 +10,5 @@ public interface ButtonInterfaceJason extends Clickable {
 	void setColor(Color black);
 	MoveInterfaceJason addMove();
 	void highlight();
+	void dim();
 }
