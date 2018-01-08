@@ -3,6 +3,8 @@ package simonSays;
 import guiTeacher.GUIApplication;
 
 public class SimonGameJason extends GUIApplication{
+	
+	private static SimonScreenJason hi;
 
 	public SimonGameJason(int width, int height) {
 		super(width, height);

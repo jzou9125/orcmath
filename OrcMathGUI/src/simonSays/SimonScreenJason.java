@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JTextArea;
 
+import guiTeacher.components.Button;
 import guiTeacher.components.TextArea;
 import guiTeacher.interfaces.Visible;
 import guiTeacher.userInterfaces.ClickableScreen;
@@ -20,11 +21,20 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 	private ButtonInterfaceJason[] buttons;
 	private  ArrayList<MoveInterfaceJason> playerMoves = new ArrayList<MoveInterfaceJason>();
 	private ArrayList<MoveInterfaceJason> sequence = new ArrayList<MoveInterfaceJason>();
-	private int round = 0;
+	private static int round = 0;
 	private boolean playing = true;
 	private int sequenceNum;
 	private TextArea tRound;
+	private Button button;
 
+
+	public static int getRound() {
+		return round;
+	}
+
+	public static void setRound(int round) {
+		SimonScreenJason.round = round;
+	}
 
 	public SimonScreenJason(int width, int height) {
 		super(width, height);
@@ -33,19 +43,24 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 	@Override
 	public void initAllObjects(List<Visible> viewObjects) {
 
-		buttons = new ButtonInterfaceJason[5];
+		/*buttons = new ButtonInterfaceJason[5];
 		for( int i = 0; i< buttons.length; i++)
 		{
 			buttons[i] = getButton();
 			buttons[i].setColor(Color.black);
+			viewObjects.add(buttons[i]);
+		}*/
+		for(int i = 0; i < 5; i++) {
+			Button button = new Button(0 + i * 50, 0, 50, 50, "hi", null);
+			viewObjects.add(button);
 		}
-		
 		
 
 	}
 
 	private ButtonInterfaceJason getButton() {
-		return null;
+		ButtonJason button = new ButtonJason();
+		return button;
 	}
 
 	@Override
