@@ -3,11 +3,11 @@ package simonSays;
 import guiTeacher.GUIApplication;
 
 public class SimonGameJason extends GUIApplication{
-	
-	private static SimonScreenJason hi;
 
+	public static SimonScreenJason screen;
 	public SimonGameJason(int width, int height) {
 		super(width, height);
+		setVisible(true);
 	}
 
 	public static void main(String[] args) {
@@ -18,8 +18,8 @@ public class SimonGameJason extends GUIApplication{
 
 	@Override
 	public void initScreen() {
-		SimonScreenJason wind = new SimonScreenJason(getWidth(), getHeight());
-		setScreen(wind);
+		screen = new SimonScreenJason(getWidth(), getHeight());
+		setScreen(screen);
 	}
 
 }
