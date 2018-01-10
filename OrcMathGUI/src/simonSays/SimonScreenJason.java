@@ -2,8 +2,8 @@ package simonSays;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import guiTeacher.components.Action;
 import guiTeacher.components.Button;
@@ -16,260 +16,184 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1341680881667906578L;
-	public  ArrayList<String> playerMoves = new ArrayList<String>();
-	public ArrayList<String> sequence = new ArrayList<String>();
-	private static Color[] color = {Color.black, Color.blue, Color.green, Color.red, Color.PINK};
-	private String[] ai = {"black", "blue", "green", "red", "pink"};
-	private Button[] buttons;
-	private static int round = 0;
-	private boolean playing = true;
-	private int sequenceNum = 1;
-	private TextArea text;
+	private static final long serialVersionUID = -35274811003103885L;
+	private TextArea progress;
+	private TextArea response;
+	private ArrayList<MoveInterfaceJason> move;
+	private ButtonInterfaceJason[] buttons;
+	private int rNum;
+	private boolean acceptInput;
+	private int lastButton;
+	private int sequenceIndex;
 	
-
-
-	public static int getRound() {
-		return round;
-	}
-
-	public static void setRound(int round) {
-		SimonScreenJason.round = round;
-	}
-
 	public SimonScreenJason(int width, int height) {
 		super(width, height);
-
-		Thread app = new Thread(this);
-		app.start();
+		Thread runner = new Thread(this);
+		runner.start();
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void initAllObjects(List<Visible> viewObjects) {
-		Button[] buttons = new Button[5];
-		for( int i = 0; i< buttons.length; i++)
-		{
-			buttons[i] = new Button((i*40)+10, 30, 30, 30, "", color[i], null);
-		}
-		Button blackButton = buttons[0];
-		buttons[0].setAction(new Action() {
-
-			@Override
-			public void act() {
-				playerMoves.add("black");
-				Thread light = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						blackButton.setBackgroundColor(blackButton.getBackgroundColor().darker());
-						update();
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						blackButton.setBackgroundColor(blackButton.getBackgroundColor().brighter());
-						update();
-					}
-				});
-				light.start();
-
-				if(playerMoves.size() == sequenceNum)
-				{
-					checkMoves();
-					playing = true;
-					run();
-				}
-
-			}
-		});
-		Button blueButton = buttons[1];
-		buttons[1].setAction(new Action() {
-
-			@Override
-			public void act() {
-				playerMoves.add("blue");
-				Thread light = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						blueButton.setBackgroundColor(blackButton.getBackgroundColor().darker());
-						update();
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						blueButton.setBackgroundColor(blackButton.getBackgroundColor().brighter());
-						update();
-					}
-				});
-				light.start();
-				if(playerMoves.size() == sequenceNum)
-				{
-					checkMoves();
-					playing = true;
-					run();
-				}
-
-			}
-		});
-		Button greenButton = buttons[2];
-		buttons[2].setAction(new Action() {
-
-			@Override
-			public void act() {
-				playerMoves.add("green");
-				Thread light = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						greenButton.setBackgroundColor(blackButton.getBackgroundColor().darker());
-						update();
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						greenButton.setBackgroundColor(blackButton.getBackgroundColor().brighter());
-						update();
-					}
-				});
-				light.start();
-				if(playerMoves.size() == sequenceNum)
-				{
-					checkMoves();
-					playing = true;
-					run();
-				}
-
-			}
-		});
-		Button redButton = buttons[3];
-
-		buttons[3].setAction(new Action() {
-
-			@Override
-			public void act() {
-				playerMoves.add("red");
-				Thread light = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						redButton.setBackgroundColor(blackButton.getBackgroundColor().darker());
-						update();
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						redButton.setBackgroundColor(blackButton.getBackgroundColor().brighter());
-						update();
-					}
-				});
-				light.start();
-				if(playerMoves.size() == sequenceNum)
-				{
-					checkMoves();
-					playing = true;
-					run();
-				}
-
-			}
-		});
-		Button pinkButton = buttons[4];
-		buttons[4].setAction(new Action() {
-
-			@Override
-			public void act() {
-				playerMoves.add("pink");
-				Thread light = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						pinkButton.setBackgroundColor(Color.GRAY);
-						update();
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						pinkButton.setBackgroundColor(Color.black);
-						update();
-					}
-				});
-				light.start();
-				if(playerMoves.size() == sequenceNum)
-				{
-					checkMoves();
-					playing = true;
-					run();
-				}
-
-			}
-		});
-		for( int i = 0; i< buttons.length; i++)
-		{
-			viewObjects.add(buttons[i]);
-		}
-		this.buttons = buttons;
-
-		TextArea progress = new TextArea(10, 100, 200, 200, "Progress");
-		text = progress;
-		text.setText("Rounds: "+ round + " Sequence: "+sequenceNum);
-
+		//CODE THAT WORKS (displays)
+		
+		addButtons();
+		for(ButtonInterfaceJason b: buttons){ 
+		    viewObjects.add(b); 
+		} 
+		
+		/*progress = getProgress();
+		progress.displayProgress();*/
+		progress = new TextArea(50,350,100,100, "");
+		response = new TextArea(250,50,150,150,"Simon's turn");
+		viewObjects.add(response);
+		
+		
+		move = new ArrayList<MoveInterfaceJason>();
+		lastButton = -1;
+		move.add(randomMove());
+		move.add(randomMove());
+		rNum = 0;
 		viewObjects.add(progress);
-
+		
+		
+		
 
 	}
+
+	public MoveInterfaceJason randomMove() {
+		ButtonInterfaceJason b = null;
+		  int bIndex = (int)(Math.random()*buttons.length);
+		    while(bIndex == lastButton){
+		        bIndex = (int)(Math.random()*buttons.length);
+		    }
+		    b = buttons[bIndex];
+		    lastButton = bIndex;
+		    return getMove(b);
+	}
+	
+	public MoveInterfaceJason getMove(ButtonInterfaceJason b) {
+		return new MoveJason(b);
+	}
+	
+	public ProgressInterfaceJason getProgress() {
+		return new ProgressJason(50, 350, 100, 100);
+	}
+
+	private void addButtons() {
+		int numberOfButtons = 5;
+		buttons = new ButtonInterfaceJason[numberOfButtons];
+		Color[] color = {Color.black, Color.green, Color.yellow, Color.red, Color.blue};
+		for(int i = 0; i < numberOfButtons; i++) {
+			buttons[i] = getAButton();
+			buttons[i].setColor(color[i]);
+			buttons[i].setX(250 + i *25 + i * 50);
+			buttons[i].setY(150);
+			final ButtonInterfaceJason b = buttons[i];
+			b.dim();
+			b.setAction(new Action() {
+				
+				@Override
+				public void act() {
+					if(acceptInput) {
+						Thread changeButton = new Thread(new Runnable() {
+							
+							@Override
+							public void run() {
+								b.highlight();
+								try {
+									Thread.sleep(200);
+								}catch(InterruptedException e){
+									e.printStackTrace();
+								}
+								b.dim();
+							}
+						});
+						changeButton.start();
+						if(b == move.get(sequenceIndex).getButton()) {
+							sequenceIndex++;
+						}else {
+							progress.setText("Game Over");
+						}
+						if(sequenceIndex == move.size()) {
+							Thread nextRound = new Thread(SimonScreenJason.this); 
+						    try {
+								Thread.sleep(1000); //pause so user move doesn't collide with generation of moves
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							nextRound.start();
+						}
+					}	
+				}
+			});
+		}
+		
+	}
+
+	private ButtonInterfaceJason getAButton() {
+		return new ButtonJason(0, 0, 75, 75, "", null);
+		
+	}
+
+	/**
+	Placeholder until partner finishes implementation of ProgressInterface
+	*/
 
 	@Override
 	public void run() {
-		setSequenceNum(sequenceNum + 4);
-		try {
-			generateMoves();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		setRound(round + 1);
-		text.setText("Rounds: "+ round + " Sequence: "+sequenceNum);
-	}
-	private void checkMoves() {
-		if( !sequence.equals(playerMoves))
-		{
-			restart();
-		}
-		else
-		{
-			run();
-		}
+		response.setText("");
+		nextRound();
+		
+		
 	}
 
-	private void restart() {
-		text.setText("Game Over");
-		round = 0;
-		sequenceNum = 1;
+	private void changeText(String string) {
+		Thread sleep = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				response.setText(string);
+				try {
+					Thread.sleep(100);
+				}catch(InterruptedException e){
+					e.printStackTrace();
+				}
+			}
+		});
+		sleep.start();
 	}
 
-	private void setSequenceNum(int i) {
-		sequenceNum = i;
+	private void nextRound() {
+		acceptInput = false;
+		rNum++;
+		move.add(randomMove());
+		progress.setText("Rounds: "+ rNum+" Sequence: "+ move.size());
+		changeText("Simon's Turn.");
+		response.setText("");
+		playSequence();
+		changeText("Your Turn!");
+		acceptInput = true;
+		sequenceIndex = 0;
 	}
 
-	private void generateMoves() throws InterruptedException {
-		for(int i = 0; i< sequenceNum; i++)
-		{
-			int randNum =(int) (Math.random()*4);
-			sequence.add(ai[randNum]);
-			String holder = ai[randNum];
-			ai[randNum] = ai[buttons.length -1];
-			ai[buttons.length-1] = holder;
-			buttons[randNum].act();
+	private void playSequence() {
+		ButtonInterfaceJason b = null;
+		for(int i = 0; i < move.size(); i++) {
+			if(b != null) {
+				b.dim();
+			}
+			b = move.get(i).getButton();
+			b.highlight();
+			int sleepTime = (1000 - (1 + i * 10 ));
+			try {
+					Thread.sleep(sleepTime);
+				}catch(InterruptedException e){
+					e.printStackTrace();
+				}			
 		}
+		b.dim();
 	}
 
 }
