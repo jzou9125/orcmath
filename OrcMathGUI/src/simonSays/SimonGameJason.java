@@ -4,6 +4,7 @@ import guiTeacher.GUIApplication;
 
 public class SimonGameJason extends GUIApplication {
 	
+
 	private static SimonScreenJason screen;
 	private static SimonGameJason game;
 

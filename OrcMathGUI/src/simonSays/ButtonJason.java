@@ -9,7 +9,7 @@ import guiTeacher.components.Action;
 import guiTeacher.components.Button;
 
 public class ButtonJason extends Button implements ButtonInterfaceJason{
-	
+
 	private Color color;
 	private boolean highlight;
 	
@@ -33,7 +33,6 @@ public class ButtonJason extends Button implements ButtonInterfaceJason{
 		highlight = true;
 		update();	
 	}
-
 	@Override
 	public void dim() {
 		highlight = false;

@@ -10,8 +10,4 @@ public interface ProgressInterfaceJason extends Visible {
 	void setRound(int round);
 	
 	void setSequenceSize(int size);
-
-	void displayProgress();
-
-	void setText(String string);
 }

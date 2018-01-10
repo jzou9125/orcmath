@@ -12,12 +12,11 @@ import guiTeacher.interfaces.Visible;
 import guiTeacher.userInterfaces.ClickableScreen;
 
 public class SimonScreenJason extends ClickableScreen implements Runnable{
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -35274811003103885L;
-	private TextArea progress;
+	private static final long serialVersionUID = 4800068434096482252L;
+	private ProgressInterfaceJason progress;
 	private TextArea response;
 	private ArrayList<MoveInterfaceJason> move;
 	private ButtonInterfaceJason[] buttons;
@@ -42,9 +41,7 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 		    viewObjects.add(b); 
 		} 
 		
-		/*progress = getProgress();
-		progress.displayProgress();*/
-		progress = new TextArea(50,350,100,100, "");
+		progress = getProgress();
 		response = new TextArea(250,50,150,150,"Simon's turn");
 		viewObjects.add(response);
 		
@@ -83,7 +80,7 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 	private void addButtons() {
 		int numberOfButtons = 5;
 		buttons = new ButtonInterfaceJason[numberOfButtons];
-		Color[] color = {Color.black, Color.green, Color.yellow, Color.red, Color.blue};
+		Color[] color = {Color.CYAN, Color.green, Color.yellow, Color.red, Color.blue};
 		for(int i = 0; i < numberOfButtons; i++) {
 			buttons[i] = getAButton();
 			buttons[i].setColor(color[i]);
@@ -102,7 +99,7 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 							public void run() {
 								b.highlight();
 								try {
-									Thread.sleep(200);
+									Thread.sleep(400);
 								}catch(InterruptedException e){
 									e.printStackTrace();
 								}
@@ -113,16 +110,12 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 						if(b == move.get(sequenceIndex).getButton()) {
 							sequenceIndex++;
 						}else {
-							progress.setText("Game Over");
+							progress.gameover();
+							acceptInput = false;
 						}
 						if(sequenceIndex == move.size()) {
-							Thread nextRound = new Thread(SimonScreenJason.this); 
-						    try {
-								Thread.sleep(1000); //pause so user move doesn't collide with generation of moves
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+							
+							Thread nextRound = new Thread(SimonScreenJason.this);
 							nextRound.start();
 						}
 					}	
@@ -137,16 +130,10 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 		
 	}
 
-	/**
-	Placeholder until partner finishes implementation of ProgressInterface
-	*/
-
 	@Override
 	public void run() {
 		response.setText("");
 		nextRound();
-		
-		
 	}
 
 	private void changeText(String string) {
@@ -169,7 +156,8 @@ public class SimonScreenJason extends ClickableScreen implements Runnable{
 		acceptInput = false;
 		rNum++;
 		move.add(randomMove());
-		progress.setText("Rounds: "+ rNum+" Sequence: "+ move.size());
+		progress.setRound(rNum);
+		progress.setSequenceSize(move.size());
 		changeText("Simon's Turn.");
 		response.setText("");
 		playSequence();
